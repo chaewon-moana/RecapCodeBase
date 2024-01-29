@@ -7,14 +7,20 @@
 
 import UIKit
 import Alamofire
+import SnapKit
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, CodeBase {
 
-    @IBOutlet var searchBar: UISearchBar!
-    @IBOutlet var recentLabel: UILabel!
-    @IBOutlet var resetButton: UIButton!
-    @IBOutlet var recentTableView: UITableView!
-    @IBOutlet var backView: UIView!
+    let searchBar = UISearchBar()
+    let recentLabel = UILabel()
+    let resetButton = UIButton()
+    let recentTableView = UITableView()
+
+//    @IBOutlet var searchBar: UISearchBar!
+//    @IBOutlet var recentLabel: UILabel!
+//    @IBOutlet var resetButton: UIButton!
+//    @IBOutlet var recentTableView: UITableView!
+//    @IBOutlet var backView: UIView!
     
     let udManager = UserDefaultManager.shared
     let productManager = ProductAPIManager()
@@ -35,9 +41,8 @@ class MainViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
         
         navigationItem.title = "\(udManager.nickname)의 새싹쇼핑"
-        tabBarItem = UITabBarItem(title: "검색", image: UIImage(systemName: "magnifyingglass.circle"), tag: 0)
-        tabBarController?.tabBar.barTintColor = .customPointColor
-        tabBarController?.tabBar.tintColor = .customPointColor
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+ 
         
         let xib = UINib(nibName: RecentSearchesTableViewCell.identifier, bundle: nil)
         recentTableView.register(xib, forCellReuseIdentifier: RecentSearchesTableViewCell.identifier)
@@ -65,6 +70,18 @@ class MainViewController: UIViewController {
         //TODO: userDefaults에서 recentSearchList 데이터 초기화
         udManager.recentSearchList = []
         recentTableView.reloadData()
+    }
+    
+    func setAddView() {
+        
+    }
+    
+    func configureAttribute() {
+        
+    }
+    
+    func configureLayout() {
+        
     }
 }
 

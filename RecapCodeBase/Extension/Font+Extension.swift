@@ -17,7 +17,7 @@ extension UIFont {
     static let boldMiddleBodyFont = UIFont.boldSystemFont(ofSize: 15)
     static let boldHeaderFont = UIFont.boldSystemFont(ofSize: 17)
     static let boldBigBodyFont = UIFont.boldSystemFont(ofSize: 16)
-    static let buttonTitleFont = UIFont.systemFont(ofSize: 15, weight: .heavy)
+    static let buttonTitleFont = UIFont.systemFont(ofSize: 17, weight: .heavy)
     
 }
 

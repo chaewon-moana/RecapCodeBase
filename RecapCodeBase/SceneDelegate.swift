@@ -15,32 +15,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        
         //udManager.firstVisit = false
         //udManager.likeList = []
         
         if udManager.firstVisit {
             guard let scene = (scene as? UIWindowScene) else { return }
             UserDefaults.standard.set(DataManager.profileImageList.randomElement(), forKey: "profile")
-
             window = UIWindow(windowScene: scene)
-            
-            let sb = UIStoryboard(name: "Main", bundle: nil)
-            let vc = sb.instantiateViewController(identifier: "mainTabBarController") as! UITabBarController
-            
-            //let nav = UINavigationController(rootViewController: vc)
-            window?.rootViewController = vc
+            window?.rootViewController = MainTabBarViewController()
             window?.makeKeyAndVisible()
+            
         } else {//첫 방문일 때 : UserDefaults firstVisit - false
             guard let scene = (scene as? UIWindowScene) else { return }
-            
+    
             window = UIWindow(windowScene: scene)
-            
-            let sb = UIStoryboard(name: "Main", bundle: nil)
-            let vc = sb.instantiateViewController(identifier: OnboardViewController.identifier) as! OnboardViewController
-            
-            let nav = UINavigationController(rootViewController: vc)
-            window?.rootViewController = nav
+            window?.rootViewController = OnboardViewController()
             window?.makeKeyAndVisible()
         }
         

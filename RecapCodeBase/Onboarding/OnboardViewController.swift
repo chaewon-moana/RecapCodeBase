@@ -6,30 +6,69 @@
 //
 
 import UIKit
+import SnapKit
 
-class OnboardViewController: UIViewController {
-
-    @IBOutlet var nameImageView: UIImageView!
-    @IBOutlet var onboardImageView: UIImageView!
-    @IBOutlet var startButton: UIButton!
+class OnboardViewController: UIViewController, CodeBase {
+    
+//    @IBOutlet var nameImageView: UIImageView!
+//    @IBOutlet var onboardImageView: UIImageView!
+//    @IBOutlet var startButton: UIButton!
+    
+    let nameImageView = UIImageView()
+    let onboardImageView = UIImageView()
+    let startButton = SeSACButton()
     
     let udManager = UserDefaultManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setUI()
-        setCommonUI()        
+        setCommonUI()      
+        setAddView()
+        configureLayout()
+        configureAttribute()
+        
+        startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
     }
 
-    func setUI() {
+    func setAddView() {
+        view.addSubview(nameImageView)
+        view.addSubview(onboardImageView)
+        view.addSubview(startButton)
+    }
+    
+    func configureAttribute() {
         nameImageView.image = .sesacShopping
+        
         onboardImageView.image = .onboarding
-        startButton.customButton(text: "시작하기")
+        
+        startButton.setTitle("시작하기", for: .normal)
+    }
+    
+    func configureLayout() {
+        nameImageView.snp.makeConstraints { make in
+            make.width.equalTo(240)
+            make.height.equalTo(120)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(80)
+            make.centerX.equalTo(view)
+        }
+        
+        onboardImageView.snp.makeConstraints { make in
+            make.width.equalTo(300)
+            make.height.equalTo(250)
+            make.top.equalTo(nameImageView.snp.bottom).offset(70)
+            make.centerX.equalTo(view)
+        }
+        
+        startButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(50)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
+        }
     }
 
-    @IBAction func startButtonTapped(_ sender: UIButton) {
-        let vc = storyboard?.instantiateViewController(withIdentifier: ProfileNicknameViewController.identifier) as! ProfileNicknameViewController
+    @objc func startButtonTapped() {
+        print("start button 눌림")
+        let vc = ProfileNicknameViewController()
         navigationController?.pushViewController(vc, animated: true)
         
     }
