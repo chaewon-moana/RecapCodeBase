@@ -14,6 +14,7 @@ class UserDefaultManager {
     static let shared = UserDefaultManager()
     
     let ud = UserDefaults.standard
+    let list = ["dd", "ee", "asdf","sdfgg"]
     
     enum UDKey: String {
         case selectedImageIndex

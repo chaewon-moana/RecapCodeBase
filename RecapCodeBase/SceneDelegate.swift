@@ -15,7 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        //udManager.firstVisit = false
+        udManager.firstVisit = true
+        udManager.recentSearchList = ["dd", "asdg"]
         //udManager.likeList = []
         
         if udManager.firstVisit {

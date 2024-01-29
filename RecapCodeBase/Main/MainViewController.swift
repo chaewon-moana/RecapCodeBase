@@ -37,51 +37,75 @@ class MainViewController: UIViewController, CodeBase {
         recentTableView.separatorStyle = .none
         recentTableView.rowHeight = udManager.recentSearchList.isEmpty ? 500 : 40
         
-        recentTableView.isScrollEnabled = udManager.recentSearchList.isEmpty ? false : true
         tabBarController?.tabBar.isHidden = false
         
         navigationItem.title = "\(udManager.nickname)의 새싹쇼핑"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
- 
+// 
+        recentTableView.register(RecentSearchesTableViewCell.self, forCellReuseIdentifier: "RecentSearchesTableViewCell")
+        recentTableView.register(EmptyTableViewCell.self, forCellReuseIdentifier: "EmptyTableViewCell")
         
-        let xib = UINib(nibName: RecentSearchesTableViewCell.identifier, bundle: nil)
-        recentTableView.register(xib, forCellReuseIdentifier: RecentSearchesTableViewCell.identifier)
+        resetButton.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
         
-        let emptyXib = UINib(nibName: EmptyTableViewCell.identifier, bundle: nil)
-        recentTableView.register(emptyXib, forCellReuseIdentifier: EmptyTableViewCell.identifier)
-        
+        setAddView()
+        configureLayout()
+        configureAttribute()
         setCommonUI()
-        setSearchBarUI()
-        setUI()
     }
     
-    func setUI() {
+    @objc func resetButtonTapped() {
+        //TODO: userDefaults에서 recentSearchList 데이터 초기화
+        udManager.recentSearchList = []
+        recentTableView.reloadData()
+    }
+
+    func setAddView() {
+        view.addSubview(recentTableView)
+        view.addSubview(searchBar)
+        view.addSubview(recentLabel)
+        view.addSubview(resetButton)
+       
+    }
+    
+    func configureAttribute() {
+        
+        searchBar.placeholder = "브랜드, 상품, 프로필, 태그 등"
+        searchBar.searchBarStyle = .minimal
+        searchBar.layer.cornerRadius = 8
+        
         recentLabel.text = "최근 검색"
         recentLabel.textColor = .customTextColor
         recentLabel.font = .middleBodyFont
         
         resetButton.setTitle("모두 지우기", for: .normal)
         resetButton.setTitleColor(.customPointColor, for: .normal)
-        resetButton.titleLabel?.font = .smallBodyFont
+        resetButton.titleLabel?.font = .subTextFont
         
-    }
-    
-    @IBAction func resetButtonTapped(_ sender: UIButton) {
-        //TODO: userDefaults에서 recentSearchList 데이터 초기화
-        udManager.recentSearchList = []
-        recentTableView.reloadData()
-    }
-    
-    func setAddView() {
-        
-    }
-    
-    func configureAttribute() {
-        
+        recentTableView.backgroundColor = .clear
     }
     
     func configureLayout() {
+        searchBar.snp.makeConstraints { make in
+            make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(44)
+        }
         
+        recentLabel.snp.makeConstraints { make in
+            make.height.equalTo(20)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(12)
+            make.top.equalTo(searchBar.snp.bottom).offset(12)
+        }
+        
+        resetButton.snp.makeConstraints { make in
+            make.height.equalTo(20)
+            make.trailing.equalTo(view).offset(-12)
+            make.top.equalTo(searchBar.snp.bottom).offset(12)
+        }
+        
+        recentTableView.snp.makeConstraints { make in
+            make.bottom.horizontalEdges.equalTo(view)
+            make.top.equalTo(recentLabel.snp.bottom).offset(4)
+        }
     }
 }
 
@@ -96,27 +120,31 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         if !udManager.recentSearchList.isEmpty {
             let cell = tableView.dequeueReusableCell(withIdentifier: RecentSearchesTableViewCell.identifier, for: indexPath) as! RecentSearchesTableViewCell
             
+            print(udManager.recentSearchList)
             cell.selectionStyle = .none
             cell.searchesLabel.text = udManager.recentSearchList[indexPath.row]
             
             cell.deleteButton.tag = indexPath.item
             cell.deleteButton.addTarget(self, action: #selector(cellDeleteButton(sender:)), for: .touchUpInside)
-            backView.isHidden = false
+            
+            recentLabel.isHidden = false
+            resetButton.isHidden = false
             
             return cell
             
         } else {
             let emptyCell = tableView.dequeueReusableCell(withIdentifier: EmptyTableViewCell.identifier, for: indexPath) as! EmptyTableViewCell
-            
+
+            recentTableView.isScrollEnabled = false
             emptyCell.selectionStyle = .none
-            backView.isHidden = true
+            recentLabel.isHidden = true
+            resetButton.isHidden = true
             return emptyCell
         }
         
     }
     
     @objc func cellDeleteButton(sender: UIButton) {
-        print("\(sender.tag)지워짐요")
         var list = udManager.recentSearchList
         list.remove(at: sender.tag)
         udManager.recentSearchList = list
@@ -130,7 +158,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         udManager.recentSearches = udManager.recentSearchList[indexPath.row]
         productManager.callRequest(text: udManager.recentSearches, start: 1, sort: "sim") { value in
-            let vc = self.storyboard?.instantiateViewController(identifier: SearchViewController.identifier) as! SearchViewController
+            let vc = SearchViewController()
+            //let vc = self.storyboard?.instantiateViewController(identifier: SearchViewController.identifier) as! SearchViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -138,12 +167,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension MainViewController: UISearchBarDelegate {
-    func setSearchBarUI() {
-        searchBar.placeholder = "브랜드, 상품, 프로필, 태그 등"
-        searchBar.searchBarStyle = .minimal
-        searchBar.layer.cornerRadius = 8
-    }
-    
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         udManager.recentSearches = searchBar.text!
         udManager.recentSearchList.insert(searchBar.text!, at: 0)
@@ -153,9 +177,13 @@ extension MainViewController: UISearchBarDelegate {
         }
         recentTableView.reloadData()
         
-        let vc = storyboard?.instantiateViewController(withIdentifier: SearchViewController.identifier) as! SearchViewController
+        let vc = SearchViewController()
+        //let vc = storyboard?.instantiateViewController(withIdentifier: SearchViewController.identifier) as! SearchViewController
         navigationController?.pushViewController(vc, animated: true)
     }
 
 }
 
+#Preview {
+    MainTabBarViewController()
+}

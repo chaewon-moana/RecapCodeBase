@@ -6,31 +6,61 @@
 //
 
 import UIKit
+import SnapKit
 
-class RecentSearchesTableViewCell: UITableViewCell {
-
-    @IBOutlet var magnifyingglassImageView: UIImageView!
-    @IBOutlet var searchesLabel: UILabel!
-    @IBOutlet var deleteButton: UIButton!
+class RecentSearchesTableViewCell: UITableViewCell, CodeBase {
     
-    //TODO: deleteButton 눌렀을 때, 해당 cell 삭제되게 만들기
-    //TODO: 해당 cell을 누르면 검색어창으로 이동
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    let searchImageView = UIImageView()
+    let searchesLabel = UILabel()
+    let deleteButton = UIButton()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        magnifyingglassImageView.image = UIImage(systemName: "magnifyingglass")
-        magnifyingglassImageView.tintColor = .white
+        setAddView()
+        configureLayout()
+        configureAttribute()
+    }
+
+    func setAddView() {
+        contentView.addSubview(searchImageView)
+        contentView.addSubview(searchesLabel)
+        contentView.addSubview(deleteButton)
+    }
+    
+    func configureAttribute() {
+        searchImageView.image = UIImage(systemName: "magnifyingglass")
+        searchImageView.tintColor = .white
         
         searchesLabel.font = .smallBodyFont
         searchesLabel.textColor = .lightGray
         
-        deleteButton.setTitle("", for: .normal)
         deleteButton.setImage(UIImage(systemName: "multiply"), for: .normal)
-        deleteButton.setTitleColor(.customTextColor, for: .normal)
-        deleteButton.tintColor = .lightGray
+        deleteButton.tintColor = .gray
     }
-
+    
+    func configureLayout() {
+        searchImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(20)
+            make.leading.equalTo(contentView).offset(12)
+            make.centerY.equalTo(contentView)
+        }
+        
+        searchesLabel.snp.makeConstraints { make in
+            make.leading.equalTo(searchImageView.snp.trailing).offset(20)
+            make.centerY.equalTo(contentView)
+            make.height.equalTo(30)
+        }
+        
+        deleteButton.snp.makeConstraints { make in
+            make.width.height.equalTo(30)
+            make.trailing.equalTo(contentView).offset(-14)
+            make.centerY.equalTo(contentView)
+        }
+    }
  
-
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
 }

@@ -6,12 +6,16 @@
 //
 
 import UIKit
+import SnapKit
 
 class ProfileImageViewController: UIViewController {
 
+//    let profileImageView = UIImageView()
+//    let collectionView = UICollectionView(frame: <#T##CGRect#>)
+
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var collectionView: UICollectionView!
-    
+//    
     //let profileList = DataManager.profileImage.allCases
     let profileList = DataManager.profileImageList
     let udManager = UserDefaultManager.shared
