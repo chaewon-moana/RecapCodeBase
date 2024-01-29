@@ -8,14 +8,11 @@
 import UIKit
 import SnapKit
 
-class ProfileImageViewController: UIViewController {
+class ProfileImageViewController: UIViewController, CodeBase {
+    
+    let profileImageView = ProfileImageView(frame: .zero)
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionViewLayout())
 
-//    let profileImageView = UIImageView()
-//    let collectionView = UICollectionView(frame: <#T##CGRect#>)
-
-    @IBOutlet var profileImageView: UIImageView!
-    @IBOutlet var collectionView: UICollectionView!
-//    
     //let profileList = DataManager.profileImage.allCases
     let profileList = DataManager.profileImageList
     let udManager = UserDefaultManager.shared
@@ -25,47 +22,68 @@ class ProfileImageViewController: UIViewController {
             collectionView.reloadData()
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         selectedImageIdx = udManager.selectedImageIndex
+        
         collectionView.dataSource = self
         collectionView.delegate = self
+        
         navigationItem.title = udManager.firstVisit ? "프로필 설정" : "프로필 수정"
         let image = UIImage(systemName: "chevron.backward")
-        let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem = button
-        setImageView()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
+        
+        collectionView.register(ProfileImageCollectionViewCell.self, forCellWithReuseIdentifier: "ProfileImageCollectionViewCell")
+        
+        setAddView()
+        configureLayout()
+        configureAttribute()
 
+    }
+    
+    func setAddView() {
+        view.addSubview(profileImageView)
+        view.addSubview(collectionView)
+    }
+    
+    func configureAttribute() {
+        profileImageView.image = UIImage(named: profileList[udManager.selectedImageIndex])
+        profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
+        collectionView.backgroundColor = .clear
+    }
+    
+    func configureLayout() {
+        profileImageView.snp.makeConstraints { make in
+            make.size.equalTo(150)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.centerX.equalTo(view)
+        }
+        
+        collectionView.snp.makeConstraints { make in
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(profileImageView.snp.bottom).offset(20)
+        }
+    }
+    
+    
+    static func configureCollectionViewLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        let spacing: CGFloat = 16
+        let cellWidth = UIScreen.main.bounds.width - spacing * 5
+        layout.itemSize = CGSize(width: cellWidth / 4, height: cellWidth / 4)
+        layout.minimumLineSpacing = 12
+        layout.minimumInteritemSpacing = 12
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+        layout.scrollDirection = .vertical
+        
+        return layout
     }
     
     @objc func backButtonTapped() {
         udManager.selectedImageIndex = selectedImageIdx
         navigationController?.popViewController(animated: true)
-        
     }
-
-    func setImageView() {
-        
-        profileImageView.setImageViewButton(size: 150)
-        profileImageView.image = UIImage(named: profileList[udManager.selectedImageIndex])
-        
-        let xib = UINib(nibName: ProfileImageCollectionViewCell.identifier, bundle: nil)
-        collectionView.register(xib, forCellWithReuseIdentifier: ProfileImageCollectionViewCell.identifier)
-        
-        let layout = UICollectionViewFlowLayout()
-        
-        let spacing: CGFloat = 16
-        let cellWidth = UIScreen.main.bounds.width - spacing * 5
-        layout.itemSize = CGSize(width: cellWidth / 4, height: cellWidth / 4)
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
-
-        layout.scrollDirection = .vertical
-        
-        collectionView.collectionViewLayout = layout
-        
-    }
-    
 }
 
 extension ProfileImageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -77,7 +95,8 @@ extension ProfileImageViewController: UICollectionViewDelegate, UICollectionView
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileImageCollectionViewCell.identifier, for: indexPath) as! ProfileImageCollectionViewCell
 
         cell.imageView.image = UIImage(named: profileList[indexPath.item])
-        cell.imageView.setImageViewButton(size: 75)
+        cell.imageView.backgroundColor = .blue
+        //cell.imageView.setImageViewButton(size: 75)
         
         if selectedImageIdx == indexPath.item {
             cell.imageView.layer.borderColor = UIColor.customPointColor.cgColor
@@ -92,5 +111,11 @@ extension ProfileImageViewController: UICollectionViewDelegate, UICollectionView
         selectedImageIdx = indexPath.item
         profileImageView.image = UIImage(named: profileList[selectedImageIdx])
     }
+    
+  
 
+}
+
+#Preview {
+    ProfileImageViewController()
 }

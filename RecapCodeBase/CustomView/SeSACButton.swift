@@ -22,7 +22,6 @@ class SeSACButton: UIButton {
         titleLabel?.font = .buttonTitleFont
         isUserInteractionEnabled = true
         
-        
         snp.makeConstraints { make in
             make.height.equalTo(50)
         }
