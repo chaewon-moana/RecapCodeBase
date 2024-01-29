@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             guard let scene = (scene as? UIWindowScene) else { return }
             UserDefaults.standard.set(DataManager.profileImageList.randomElement(), forKey: "profile")
             window = UIWindow(windowScene: scene)
-            window?.rootViewController = ProfileImageViewController()//MainTabBarViewController()
+            window?.rootViewController = ProfileNicknameViewController()//MainTabBarViewController()
             window?.makeKeyAndVisible()
             
         } else {//첫 방문일 때 : UserDefaults firstVisit - false

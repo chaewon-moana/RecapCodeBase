@@ -13,7 +13,6 @@ class ProfileImageViewController: UIViewController, CodeBase {
     let profileImageView = ProfileImageView(frame: .zero)
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionViewLayout())
 
-    //let profileList = DataManager.profileImage.allCases
     let profileList = DataManager.profileImageList
     let udManager = UserDefaultManager.shared
     lazy var selectedImageIdx = udManager.selectedImageIndex {
@@ -96,7 +95,6 @@ extension ProfileImageViewController: UICollectionViewDelegate, UICollectionView
 
         cell.imageView.image = UIImage(named: profileList[indexPath.item])
         cell.imageView.backgroundColor = .blue
-        //cell.imageView.setImageViewButton(size: 75)
         
         if selectedImageIdx == indexPath.item {
             cell.imageView.layer.borderColor = UIColor.customPointColor.cgColor
@@ -112,10 +110,6 @@ extension ProfileImageViewController: UICollectionViewDelegate, UICollectionView
         profileImageView.image = UIImage(named: profileList[selectedImageIdx])
     }
     
-  
-
 }
 
-#Preview {
-    ProfileImageViewController()
-}
+ 

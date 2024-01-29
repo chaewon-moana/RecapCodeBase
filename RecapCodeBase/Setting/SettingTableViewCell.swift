@@ -30,7 +30,7 @@ class SettingTableViewCell: UITableViewCell {
         likeLabel.attributedText = configureCell(count: udManager.likeList.count)
         likeLabel.font = .BigBodyFont
         
-        profileImage.setImageViewButton(size: 70)
+        //profileImage.setImageViewButton(size: 70)
         
     }
     

@@ -6,22 +6,22 @@
 //
 
 import UIKit
+import SnapKit
 
 enum SettingType {
     case setting
     case editing
 }
 
-class ProfileNicknameViewController: UIViewController {
-
-    @IBOutlet var backView: UIView!
-    @IBOutlet var profileImageView: UIImageView!
-    @IBOutlet var camaraImageView: UIImageView!
-    @IBOutlet var nicknameTextField: UITextField!
-    @IBOutlet var stateLabel: UILabel!
-    @IBOutlet var doneButton: UIButton!
-    @IBOutlet var underLineView: UIView!
+class ProfileNicknameViewController: UIViewController, CodeBase {
     
+    let profileImageView = ProfileImageView(frame: .zero)
+    let cameraImageView = UIImageView()
+    let nicknameTextField = UITextField()
+    let stateLabel = UILabel()
+    let doneButton = SeSACButton()
+    let underLineView = UIView()
+
     let profileList = DataManager.profileImageList
     let udManager = UserDefaultManager.shared
     var checkDone = false
@@ -31,68 +31,113 @@ class ProfileNicknameViewController: UIViewController {
         
         nicknameTextField.delegate = self
 
+        setAddView()
+        configureLayout()
+        configureAttribute()
         setNavigation()
         setCommonUI()
-        setUI()
         setTextField()
-                
-        let image = UIImage(systemName: "chevron.backward")
-        let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem = button
-            
-    }
+        profileImageTapped()
     
-    override func viewWillAppear(_ animated: Bool) {
-        profileImageView.image = UIImage(named: DataManager.profileImageList[udManager.selectedImageIndex])
-    }
-    
-    @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
+        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
 
-    
-    func setNavigation() {
-        navigationItem.title = udManager.firstVisit ? "프로필 수정" : "프로필 설정"
+    func setAddView() {
+        view.addSubviews([profileImageView, cameraImageView, nicknameTextField, stateLabel, doneButton, underLineView])
     }
     
-    func setUI() {
+    func configureAttribute() {
         
-        backView.backgroundColor = .clear
-        
-        profileImageView.setImageViewButton(size: 100)
         profileImageView.image = UIImage(named: DataManager.profileImageList[udManager.selectedImageIndex])
                 
         stateLabel.text = "닉네임에 @, #, $, %의 특수문자 및 숫자는 사용불가합니다."
         stateLabel.font = .subTextFont
         stateLabel.textColor = .customPointColor
         
-        camaraImageView.image = .camera
+        cameraImageView.image = .camera
         
-        doneButton.customButton(text: "완료")
+        doneButton.setTitle("완료", for: .normal)
         
         underLineView.backgroundColor = .gray
         underLineView.layer.borderWidth = 1
         underLineView.layer.borderColor = UIColor.gray.cgColor
     }
     
-    @IBAction func profileImageTapped(_ sender: UITapGestureRecognizer) {
-        let vc = storyboard?.instantiateViewController(withIdentifier: ProfileImageViewController.identifier) as! ProfileImageViewController
+    func configureLayout() {
+        profileImageView.snp.makeConstraints { make in
+            make.size.equalTo(100)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.centerX.equalTo(view)
+        }
+        
+        cameraImageView.snp.makeConstraints { make in
+            make.size.equalTo(30)
+            make.bottom.trailing.equalTo(profileImageView)
+        }
+        
+        nicknameTextField.snp.makeConstraints { make in
+            make.height.equalTo(30)
+            make.top.equalTo(profileImageView.snp.bottom).offset(30)
+            make.horizontalEdges.equalTo(view).inset(20)
+        }
+        
+        underLineView.snp.makeConstraints { make in
+            make.height.equalTo(1)
+            make.horizontalEdges.equalTo(view).inset(20)
+            make.top.equalTo(nicknameTextField.snp.bottom).offset(2)
+        }
+        
+        stateLabel.snp.makeConstraints { make in
+            make.height.equalTo(24)
+            make.leading.equalTo(view).offset(20)
+            make.top.equalTo(underLineView.snp.bottom).offset(10)
+        }
+        
+        doneButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(view).inset(20)
+            make.height.equalTo(50)
+            make.top.equalTo(stateLabel.snp.bottom).offset(30)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        profileImageView.image = UIImage(named: DataManager.profileImageList[udManager.selectedImageIndex])
+    }
+    
+    func setNavigation() {
+        navigationItem.title = udManager.firstVisit ? "프로필 수정" : "프로필 설정"
+        let image = UIImage(systemName: "chevron.backward")
+        let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
+        navigationItem.leftBarButtonItem = button
+    }
+    
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func profileImageTapped() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(moveToProfileImage))
+        profileImageView.addGestureRecognizer(tapGesture)
+        profileImageView.isUserInteractionEnabled = true
+    }
+    
+    @objc func moveToProfileImage() {
+        print("이미지 눌림")
+        let vc = ProfileImageViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func doneButtonTapped(_ sender: UIButton) {
+    @objc func doneButtonTapped() {
         udManager.nickname = nicknameTextField.text!
         udManager.firstVisit = true
 
         if checkDone {
-            
             udManager.nickname = nicknameTextField.text!
             
             let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
             let sceneDelegate = windowScene?.delegate as? SceneDelegate
             
-            let sb = UIStoryboard(name: "Main", bundle: nil)
-            let vc = sb.instantiateViewController(withIdentifier: "mainTabBarController") as! UITabBarController
+            let vc = MainTabBarViewController()
             vc.selectedIndex = 0
             sceneDelegate?.window?.rootViewController = vc
             sceneDelegate?.window?.makeKeyAndVisible()
@@ -169,4 +214,13 @@ extension ProfileNicknameViewController: UITextFieldDelegate {
         }
         checkDone = !checkNumber && !checkSpecial && !checkLength
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+ 
+}
+
+#Preview {
+    ProfileNicknameViewController()
 }
