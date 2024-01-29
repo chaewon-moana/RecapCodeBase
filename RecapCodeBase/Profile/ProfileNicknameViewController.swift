@@ -124,7 +124,8 @@ class ProfileNicknameViewController: UIViewController, CodeBase {
     @objc func moveToProfileImage() {
         print("이미지 눌림")
         let vc = ProfileImageViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        let nav = UINavigationController(rootViewController: vc)
+        navigationController?.pushViewController(nav, animated: true)
     }
     
     @objc func doneButtonTapped() {

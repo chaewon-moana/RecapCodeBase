@@ -8,28 +8,51 @@
 import UIKit
 import Kingfisher
 
-class ProductCollectionViewCell: UICollectionViewCell {
+class ProductCollectionViewCell: UICollectionViewCell, CodeBase {
     
-    @IBOutlet var likeButton: UIButton!
-    @IBOutlet var likeBackView: UIView!
-    @IBOutlet var backImageView: UIView!
-    @IBOutlet var productImageView: UIImageView!
-    @IBOutlet var mallNameLabel: UILabel!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var priceLabel: UILabel!
+    let likeButton = UIButton()
+    let likeBackView = UIView()
+    let backImageView = UIView()
+    let productImageView = UIImageView()
+    let mallNameLabel = UILabel()
+    let titleLabel = UILabel()
+    let priceLabel = UILabel()
+//
+//    @IBOutlet var likeButton: UIButton!
+//    @IBOutlet var likeBackView: UIView!
+//    @IBOutlet var backImageView: UIView!
+//    @IBOutlet var productImageView: UIImageView!
+//    @IBOutlet var mallNameLabel: UILabel!
+//    @IBOutlet var titleLabel: UILabel!
+//    @IBOutlet var priceLabel: UILabel!
     
     let udManager = UserDefaultManager.shared
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-                
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setAddView()
+        configureLayout()
+        configureAttribute()
+    }
+    
+
+    
+    func setAddView() {
+        contentView.addSubviews([likeButton, likeBackView, backImageView, productImageView, mallNameLabel, titleLabel, priceLabel])
+    }
+    
+    func configureAttribute() {
         likeBackView.layer.cornerRadius = 35/2
         likeBackView.backgroundColor = .white
-
         
         mallNameLabel.text = "mallName"
         titleLabel.text = "titleLabel"
         priceLabel.text = "priceLabel"
+    }
+    
+    func configureLayout() {
+        
     }
     
     func configureCell(data: Product) {
@@ -67,6 +90,9 @@ class ProductCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

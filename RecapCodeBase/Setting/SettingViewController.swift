@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import SnapKit
 
-class SettingViewController: UIViewController {
+class SettingViewController: UIViewController, CodeBase {
 
     @IBOutlet var tableView: UITableView!
     
@@ -32,6 +33,10 @@ class SettingViewController: UIViewController {
         
         let xib = UINib(nibName: SettingTableViewCell.identifier, bundle: nil)
         tableView.register(xib, forCellReuseIdentifier: SettingTableViewCell.identifier)
+        
+        setAddView()
+        configureLayout()
+        configureAttribute()
 
     }
     
@@ -39,7 +44,19 @@ class SettingViewController: UIViewController {
         super.viewWillAppear(true)
         tableView.reloadData()
     }
-
+    
+    func setAddView() {
+        
+    }
+    
+    func configureAttribute() {
+        
+        
+    }
+    
+    func configureLayout() {
+        
+    }
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
