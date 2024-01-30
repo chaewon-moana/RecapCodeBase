@@ -11,7 +11,7 @@ import SnapKit
 class SettingViewController: UIViewController, CodeBase {
 
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
-    //@IBOutlet var tableView: UITableView!
+    
     let cellList = ["공지사항", "자주 묻는 질문", "1:1 문의", "알림 설정", "처음부터 시작하기"]
     let udManager = UserDefaultManager.shared
     let dataManager = DataManager.profileImageList

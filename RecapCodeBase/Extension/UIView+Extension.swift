@@ -12,9 +12,4 @@ extension UIView {
     func addSubviews(_ views: [UIView]) {
         views.forEach { addSubview($0) }
     }
-//    func setImageViewButton(size: Double) {
-//        layer.cornerRadius = size / 2
-//        layer.borderWidth = size == 75 ? 4 : 6
-//        layer.borderColor = UIColor.customPointColor.cgColor
-//    }
 }

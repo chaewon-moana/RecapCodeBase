@@ -16,12 +16,6 @@ class MainViewController: UIViewController, CodeBase {
     let resetButton = UIButton()
     let recentTableView = UITableView()
 
-//    @IBOutlet var searchBar: UISearchBar!
-//    @IBOutlet var recentLabel: UILabel!
-//    @IBOutlet var resetButton: UIButton!
-//    @IBOutlet var recentTableView: UITableView!
-//    @IBOutlet var backView: UIView!
-    
     let udManager = UserDefaultManager.shared
     let productManager = ProductAPIManager()
     var data: ProductList = ProductList(total: 0, start: 0, display: 0, items: [])

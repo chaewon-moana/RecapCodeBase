@@ -7,11 +7,11 @@
 
 import UIKit
 import WebKit
+import SnapKit
 
 class SearchDetailViewController: UIViewController {
 
-    @IBOutlet var webView: WKWebView!
-    
+    let webView = WKWebView()    
     var productId: String = ""
     var productTitle: String = ""
     let udManager = UserDefaultManager.shared
@@ -27,6 +27,12 @@ class SearchDetailViewController: UIViewController {
         tabBarController?.tabBar.barTintColor = .black
 
         linkWebView()
+        
+        view.addSubview(webView)
+        
+        webView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
     }
     
     @objc func likeButtonTapped() {

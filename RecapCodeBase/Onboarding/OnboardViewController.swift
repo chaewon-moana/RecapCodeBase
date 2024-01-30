@@ -9,11 +9,7 @@ import UIKit
 import SnapKit
 
 class OnboardViewController: UIViewController, CodeBase {
-    
-//    @IBOutlet var nameImageView: UIImageView!
-//    @IBOutlet var onboardImageView: UIImageView!
-//    @IBOutlet var startButton: UIButton!
-    
+
     let nameImageView = UIImageView()
     let onboardImageView = UIImageView()
     let startButton = SeSACButton()

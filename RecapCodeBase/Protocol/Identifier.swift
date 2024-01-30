@@ -11,11 +11,16 @@ protocol ReusableViewProtocol {
     static var identifier: String { get }
 }
 
-extension UICollectionViewCell: ReusableViewProtocol {
-    static var identifier: String {
-        return String(describing: self)
-    }
+extension UIView: ReusableViewProtocol {
+        static var identifier: String {
+            return String(describing: self)
+        }
 }
+//extension UICollectionViewCell: ReusableViewProtocol {
+//    static var identifier: String {
+//        return String(describing: self)
+//    }
+//}
 
 extension UIViewController: ReusableViewProtocol {
     static var identifier: String {
@@ -23,8 +28,8 @@ extension UIViewController: ReusableViewProtocol {
     }
 }
 
-extension UITableViewCell: ReusableViewProtocol {
-    static var identifier: String {
-        return String(describing: self)
-    }
-}
+//extension UITableViewCell: ReusableViewProtocol {
+//    static var identifier: String {
+//        return String(describing: self)
+//    }
+//}

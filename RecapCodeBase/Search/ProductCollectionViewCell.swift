@@ -7,25 +7,17 @@
 
 import UIKit
 import Kingfisher
+import SnapKit
 
 class ProductCollectionViewCell: UICollectionViewCell, CodeBase {
     
     let likeButton = UIButton()
     let likeBackView = UIView()
-    let backImageView = UIView()
     let productImageView = UIImageView()
     let mallNameLabel = UILabel()
     let titleLabel = UILabel()
     let priceLabel = UILabel()
-//
-//    @IBOutlet var likeButton: UIButton!
-//    @IBOutlet var likeBackView: UIView!
-//    @IBOutlet var backImageView: UIView!
-//    @IBOutlet var productImageView: UIImageView!
-//    @IBOutlet var mallNameLabel: UILabel!
-//    @IBOutlet var titleLabel: UILabel!
-//    @IBOutlet var priceLabel: UILabel!
-    
+
     let udManager = UserDefaultManager.shared
     
     override init(frame: CGRect) {
@@ -35,29 +27,15 @@ class ProductCollectionViewCell: UICollectionViewCell, CodeBase {
         configureLayout()
         configureAttribute()
     }
-    
 
-    
     func setAddView() {
-        contentView.addSubviews([likeButton, likeBackView, backImageView, productImageView, mallNameLabel, titleLabel, priceLabel])
+        contentView.addSubviews([productImageView, mallNameLabel, titleLabel, priceLabel, likeBackView])
+        likeBackView.addSubview(likeButton)
     }
     
     func configureAttribute() {
-        likeBackView.layer.cornerRadius = 35/2
-        likeBackView.backgroundColor = .white
+        isUserInteractionEnabled = true
         
-        mallNameLabel.text = "mallName"
-        titleLabel.text = "titleLabel"
-        priceLabel.text = "priceLabel"
-    }
-    
-    func configureLayout() {
-        
-    }
-    
-    func configureCell(data: Product) {
-        let imageURL = URL(string: data.image)
-        productImageView.kf.setImage(with: imageURL)
         productImageView.contentMode = .scaleAspectFill
         productImageView.layer.cornerRadius = 8
         productImageView.clipsToBounds = true
@@ -65,26 +43,70 @@ class ProductCollectionViewCell: UICollectionViewCell, CodeBase {
         likeButton.setTitle("", for: .normal)
         likeButton.tintColor = .black
         
-        //TODO: lickImageView와 관련된 데이터셋 만들어서 true, false에 따라서 heart.fill과 heart 보여주기
+        likeBackView.layer.cornerRadius = 35/2
+        likeBackView.backgroundColor = .white
         
-        mallNameLabel.text = data.mallName
         mallNameLabel.font = .smallBodyFont
         mallNameLabel.textColor = .textGrayColor
         
-        var title = data.title.replacingOccurrences(of: "<b>", with: "")
-        title = title.replacingOccurrences(of: "</b>", with: "")
-        titleLabel.text = title
         titleLabel.numberOfLines = 2
         titleLabel.font = .middleBodyFont
         titleLabel.textColor = .customTextColor
         
+        priceLabel.textColor = .customTextColor
+        priceLabel.font = .boldBigBodyFont
+        
+    }
+    
+    func configureLayout() {
+        productImageView.snp.makeConstraints { make in
+            make.horizontalEdges.top.equalTo(contentView).inset(5)
+            make.height.equalTo(180)
+        }
+        
+        likeBackView.snp.makeConstraints { make in
+            make.size.equalTo(35)
+            make.bottom.trailing.equalTo(productImageView).inset(5)
+        }
+        
+        likeButton.snp.makeConstraints { make in
+            make.size.equalTo(20)
+            make.edges.equalToSuperview()
+        }
+        
+        mallNameLabel.snp.makeConstraints { make in
+            make.height.equalTo(16)
+            make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(10)
+            make.top.equalTo(productImageView.snp.bottom).offset(4)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(10)
+            make.width.equalTo(150)
+            make.height.lessThanOrEqualTo(36)
+            make.top.equalTo(mallNameLabel.snp.bottom).offset(4)
+        }
+        priceLabel.snp.makeConstraints { make in
+            make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(10)
+            make.height.equalTo(20)
+            make.top.equalTo(titleLabel.snp.bottom).offset(4)
+        }
+    }
+    
+    func configureCell(data: Product) {
+        let imageURL = URL(string: data.image)
+        productImageView.kf.setImage(with: imageURL)
+        mallNameLabel.text = data.mallName
+
+        var title = data.title.replacingOccurrences(of: "<b>", with: "")
+        title = title.replacingOccurrences(of: "</b>", with: "")
+        titleLabel.text = title
+
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         let result = numberFormatter.string(for: Int(data.lprice))
         priceLabel.text = result
-        priceLabel.textColor = .customTextColor
-        priceLabel.font = .boldBigBodyFont
-        
+
     }
 
     override func prepareForReuse() {

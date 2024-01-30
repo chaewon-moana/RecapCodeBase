@@ -20,7 +20,7 @@ class MainTabBarViewController: UITabBarController {
         let tabbar = UITabBarController()
         
         let mainVC = UINavigationController(rootViewController: MainViewController())
-        let profileVC = UINavigationController(rootViewController: ProfileNicknameViewController())
+        let profileVC = UINavigationController(rootViewController: SettingViewController())
         
         mainVC.tabBarItem = UITabBarItem(title: "검색", image: UIImage(systemName: "magnifyingglass"), tag: 0)
         profileVC.tabBarItem = UITabBarItem(title: "설정", image: UIImage(systemName: "person"), tag: 1)

@@ -21,10 +21,6 @@ class ProfileImageView: UIImageView {
     
     func configureView() {
         contentMode = .scaleAspectFit
-//        let spacing: CGFloat = 16
-//        let cellWidth = UIScreen.main.bounds.width - spacing * 5
-//        //layer.cornerRadius = cellWidth / 4
-//        //layer.borderWidth = size == 75 ? 4 : 6
         clipsToBounds = true
         layer.borderColor = UIColor.customPointColor.cgColor
         layer.borderWidth = 4
