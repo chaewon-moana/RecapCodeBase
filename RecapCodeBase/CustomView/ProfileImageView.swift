@@ -20,6 +20,7 @@ class ProfileImageView: UIImageView {
     }
     
     func configureView() {
+        contentMode = .scaleAspectFit
 //        let spacing: CGFloat = 16
 //        let cellWidth = UIScreen.main.bounds.width - spacing * 5
 //        //layer.cornerRadius = cellWidth / 4

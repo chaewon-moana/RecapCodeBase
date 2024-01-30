@@ -6,34 +6,57 @@
 //
 
 import UIKit
+import SnapKit
 
-class SettingTableViewCell: UITableViewCell {
+class SettingTableViewCell: UITableViewCell, CodeBase {
 
-    @IBOutlet var profileImage: UIImageView!
-    @IBOutlet var nicknameLabel: UILabel!
-    @IBOutlet var likeLabel: UILabel!
-    @IBOutlet var backView: UIView!
-    
+    let profileImage = ProfileImageView(frame: .zero)
+    let nicknameLabel = UILabel()
+    let likeLabel = UILabel()
+
     let udManager = UserDefaultManager.shared
     let dataManager = DataManager.profileImageList
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        backView.backgroundColor = .backViewColor
+        setAddView()
+        configureLayout()
+        configureAttribute()
+    }
+    
+    func setAddView() {
+        contentView.addSubviews([profileImage, nicknameLabel, likeLabel])
+    }
+    
+    func configureAttribute() {
         profileImage.image = UIImage(named: DataManager.profileImageList[udManager.selectedImageIndex])
-        profileImage.contentMode = .scaleAspectFit
         
         nicknameLabel.text = udManager.nickname
         nicknameLabel.font = .HeadFont
 
         likeLabel.attributedText = configureCell(count: udManager.likeList.count)
         likeLabel.font = .BigBodyFont
-        
-        //profileImage.setImageViewButton(size: 70)
-        
     }
-    
+
+    func configureLayout() {
+        profileImage.snp.makeConstraints { make in
+            make.size.equalTo(70)
+            make.centerY.equalTo(contentView)
+            make.leading.equalTo(20)
+        }
+        
+        nicknameLabel.snp.makeConstraints { make in
+            make.height.equalTo(24)
+            make.leading.equalTo(profileImage.snp.trailing).offset(20)
+            make.centerY.equalTo(contentView).offset(-10)
+        }
+        
+        likeLabel.snp.makeConstraints { make in
+            make.height.equalTo(20)
+        }
+    }
+
     func configureCell(count: Int) -> NSAttributedString {
         let text = "\(count)개의 상품을 좋아하고 있어요!"
         let attributedString = NSMutableAttributedString(string: text)
@@ -42,5 +65,8 @@ class SettingTableViewCell: UITableViewCell {
         
         return attributedString
     }
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

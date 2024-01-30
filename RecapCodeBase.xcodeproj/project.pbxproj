@@ -15,7 +15,6 @@
 		DE3896EA2B59325100FFB2CB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3896E92B59325100FFB2CB /* SearchViewController.swift */; };
 		DE3896ED2B5934DC00FFB2CB /* RecentSearchesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3896EB2B5934DC00FFB2CB /* RecentSearchesTableViewCell.swift */; };
 		DE3896F92B59465900FFB2CB /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3896F72B59465900FFB2CB /* SettingTableViewCell.swift */; };
-		DE3896FA2B59465900FFB2CB /* SettingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE3896F82B59465900FFB2CB /* SettingTableViewCell.xib */; };
 		DE3896FC2B5950DE00FFB2CB /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3896FB2B5950DE00FFB2CB /* UserDefaultManager.swift */; };
 		DE3896FE2B59511500FFB2CB /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = DE3896FD2B59511500FFB2CB /* .gitignore */; };
 		DE3897052B59F59A00FFB2CB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3897042B59F59A00FFB2CB /* DataManager.swift */; };
@@ -55,7 +54,6 @@
 		DE3896E92B59325100FFB2CB /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		DE3896EB2B5934DC00FFB2CB /* RecentSearchesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchesTableViewCell.swift; sourceTree = "<group>"; };
 		DE3896F72B59465900FFB2CB /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
-		DE3896F82B59465900FFB2CB /* SettingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingTableViewCell.xib; sourceTree = "<group>"; };
 		DE3896FB2B5950DE00FFB2CB /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		DE3896FD2B59511500FFB2CB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		DE3897042B59F59A00FFB2CB /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -133,7 +131,6 @@
 			children = (
 				DE3896E72B59324900FFB2CB /* SettingViewController.swift */,
 				DE3896F72B59465900FFB2CB /* SettingTableViewCell.swift */,
-				DE3896F82B59465900FFB2CB /* SettingTableViewCell.xib */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -301,7 +298,6 @@
 				DE3897142B5A973700FFB2CB /* ProductCollectionViewCell.xib in Resources */,
 				DE99C2B82B59060300158E02 /* LaunchScreen.storyboard in Resources */,
 				DE99C2B52B59060300158E02 /* Assets.xcassets in Resources */,
-				DE3896FA2B59465900FFB2CB /* SettingTableViewCell.xib in Resources */,
 				DE99C2B32B59060200158E02 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
