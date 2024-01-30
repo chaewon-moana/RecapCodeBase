@@ -10,8 +10,8 @@ import SnapKit
 
 class SettingViewController: UIViewController, CodeBase {
 
-    @IBOutlet var tableView: UITableView!
-    
+    let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    //@IBOutlet var tableView: UITableView!
     let cellList = ["공지사항", "자주 묻는 질문", "1:1 문의", "알림 설정", "처음부터 시작하기"]
     let udManager = UserDefaultManager.shared
     let dataManager = DataManager.profileImageList
@@ -31,8 +31,8 @@ class SettingViewController: UIViewController, CodeBase {
         tabBarController?.tabBar.tintColor = .customPointColor
         tabBarController?.tabBar.barTintColor = .black
         
-        let xib = UINib(nibName: SettingTableViewCell.identifier, bundle: nil)
-        tableView.register(xib, forCellReuseIdentifier: SettingTableViewCell.identifier)
+        tableView.register(SettingTableViewCell.self, forCellReuseIdentifier: "SettingTableViewCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "NoticeTableViewCell")
         
         setAddView()
         configureLayout()
@@ -46,16 +46,17 @@ class SettingViewController: UIViewController, CodeBase {
     }
     
     func setAddView() {
-        
+        view.addSubview(tableView)
     }
     
     func configureAttribute() {
-        
-        
+
     }
     
     func configureLayout() {
-        
+        tableView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 }
 
@@ -85,6 +86,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let noticeCell = tableView.dequeueReusableCell(withIdentifier: "NoticeTableViewCell")!
             noticeCell.textLabel?.text = cellList[indexPath.row]
+            noticeCell.textLabel?.font = .middleBodyFont
 
             return noticeCell
         }
@@ -100,7 +102,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            let vc = storyboard?.instantiateViewController(withIdentifier: ProfileNicknameViewController.identifier) as! ProfileNicknameViewController
+            let vc = ProfileNicknameViewController()
             navigationController?.pushViewController(vc, animated: true)
         } else {
             //TODO: 다른 cell은 막고, 처음부터 선택하기 cell을 누르면 다 초기화되고 onboarding으로 출발
@@ -117,8 +119,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                     let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                     let sceneDelegate = windowScene?.delegate as? SceneDelegate
                     
-                    let sb = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = sb.instantiateViewController(withIdentifier: OnboardViewController.identifier) as! OnboardViewController
+                    let vc = OnboardViewController()
                     let nav = UINavigationController(rootViewController: vc)
 
                     sceneDelegate?.window?.rootViewController = nav
@@ -129,12 +130,14 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 alert.addAction(cancel)
                 alert.addAction(ok)
-                
 
-                
                 present(alert, animated: true)
             }
         }
     }
     
+}
+
+#Preview {
+    SettingViewController()
 }

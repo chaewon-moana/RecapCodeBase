@@ -32,7 +32,7 @@ class SettingTableViewCell: UITableViewCell, CodeBase {
     func configureAttribute() {
         profileImage.image = UIImage(named: DataManager.profileImageList[udManager.selectedImageIndex])
         
-        nicknameLabel.text = udManager.nickname
+        nicknameLabel.text = "닉네임ㄴ닉네임닉네임"//udManager.nickname
         nicknameLabel.font = .HeadFont
 
         likeLabel.attributedText = configureCell(count: udManager.likeList.count)
@@ -49,11 +49,13 @@ class SettingTableViewCell: UITableViewCell, CodeBase {
         nicknameLabel.snp.makeConstraints { make in
             make.height.equalTo(24)
             make.leading.equalTo(profileImage.snp.trailing).offset(20)
-            make.centerY.equalTo(contentView).offset(-10)
+            make.centerY.equalTo(contentView).offset(-12)
         }
         
         likeLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
+            make.leading.equalTo(profileImage.snp.trailing).offset(20)
+            make.top.equalTo(nicknameLabel.snp.bottom).offset(2)
         }
     }
 
