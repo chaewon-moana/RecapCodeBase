@@ -12,7 +12,6 @@ class SettingViewController: UIViewController, CodeBase {
 
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    //let cellList = ["공지사항", "자주 묻는 질문", "1:1 문의", "알림 설정", "처음부터 시작하기"]
     let udManager = UserDefaultManager.shared
     let dataManager = DataManager.profileImageList
     var likeList = UserDefaultManager.shared.likeList
@@ -76,6 +75,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 0 {
             let profileCell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier, for: indexPath) as! SettingTableViewCell
+            
             profileCell.selectionStyle = .none
             profileCell.likeLabel.attributedText = profileCell.configureCell(count: udManager.likeList.count)
             profileCell.profileImage.image = UIImage(named: DataManager.profileImageList[udManager.selectedImageIndex])
@@ -83,7 +83,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let noticeCell = tableView.dequeueReusableCell(withIdentifier: "NoticeTableViewCell")!
             
-            noticeCell.textLabel?.text = viewModel.cellForRowAt(indexPath)
+            noticeCell.textLabel?.text = viewModel.noticeCellForRowAt(indexPath)
             noticeCell.textLabel?.font = .middleBodyFont
             
             return noticeCell

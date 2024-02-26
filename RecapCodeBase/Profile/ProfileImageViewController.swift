@@ -65,7 +65,6 @@ class ProfileImageViewController: UIViewController, CodeBase {
         }
     }
     
-    
     static func configureCollectionViewLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         let spacing: CGFloat = 16

@@ -227,9 +227,9 @@
 			isa = PBXGroup;
 			children = (
 				DE99C2D22B59162E00158E02 /* ProfileNicknameViewController.swift */,
+				DEF60A0D2B8C6BEB00EE3CE3 /* ProfileNicknameViewModel.swift */,
 				DE99C2D42B59164C00158E02 /* ProfileImageViewController.swift */,
 				DE3896D92B591F9900FFB2CB /* ProfileImageCollectionViewCell.swift */,
-				DEF60A0D2B8C6BEB00EE3CE3 /* ProfileNicknameViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
