@@ -85,7 +85,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             
             noticeCell.textLabel?.text = viewModel.cellForRowAt(indexPath)
             noticeCell.textLabel?.font = .middleBodyFont
-
+            
             return noticeCell
         }
     }
@@ -93,7 +93,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return indexPath.section == 0 ? 100 : 40
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             let vc = ProfileNicknameViewController()
@@ -111,37 +111,14 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     let vc = OnboardViewController()
                     let nav = UINavigationController(rootViewController: vc)
-
+                    
                     sceneDelegate?.window?.rootViewController = nav
                     sceneDelegate?.window?.makeKeyAndVisible()
                 }
-                
-//                let ok = UIAlertAction(title: "확인", style: .default) { action in
-//                
-//                    for key in UserDefaults.standard.dictionaryRepresentation().keys {
-//                        UserDefaults.standard.removeObject(forKey: key.description)
-//                    }
-//                    
-//                    let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-//                    let sceneDelegate = windowScene?.delegate as? SceneDelegate
-//                    
-//                    let vc = OnboardViewController()
-//                    let nav = UINavigationController(rootViewController: vc)
-//
-//                    sceneDelegate?.window?.rootViewController = nav
-//                    sceneDelegate?.window?.makeKeyAndVisible()
-                }
-                
-//                let cancel = UIAlertAction(title: "취소", style: .cancel)
-//                
-//                alert.addAction(cancel)
-//                alert.addAction(ok)
-//
-//                present(alert, animated: true)
-            
+            }
         }
+        
     }
-    
 }
 
 #Preview {
