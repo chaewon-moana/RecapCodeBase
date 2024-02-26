@@ -12,11 +12,13 @@ class SettingViewController: UIViewController, CodeBase {
 
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    let cellList = ["공지사항", "자주 묻는 질문", "1:1 문의", "알림 설정", "처음부터 시작하기"]
+    //let cellList = ["공지사항", "자주 묻는 질문", "1:1 문의", "알림 설정", "처음부터 시작하기"]
     let udManager = UserDefaultManager.shared
     let dataManager = DataManager.profileImageList
     var likeList = UserDefaultManager.shared.likeList
     var likeCount = 0
+    
+    let viewModel = SettingViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,12 +69,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if section == 0 {
-            return 1
-        } else {
-            return cellList.count
-        }
+        return section == 0 ? 1 : viewModel.cellList.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -85,7 +82,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             return profileCell
         } else {
             let noticeCell = tableView.dequeueReusableCell(withIdentifier: "NoticeTableViewCell")!
-            noticeCell.textLabel?.text = cellList[indexPath.row]
+            
+            noticeCell.textLabel?.text = viewModel.cellForRowAt(indexPath)
             noticeCell.textLabel?.font = .middleBodyFont
 
             return noticeCell
@@ -93,11 +91,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return 100
-        } else {
-            return 40
-        }
+        return indexPath.section == 0 ? 100 : 40
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -105,13 +99,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             let vc = ProfileNicknameViewController()
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            //TODO: 다른 cell은 막고, 처음부터 선택하기 cell을 누르면 다 초기화되고 onboarding으로 출발
-            
-            if indexPath.row == cellList.count - 1 {
-                let alert = UIAlertController(title: "처음부터 시작하기", message: "데이터를 모두 초기화하시겠습니까?", preferredStyle: .alert)
-                
-                let ok = UIAlertAction(title: "확인", style: .default) { action in
-
+            //HELP!!!: 얘를 뷰모델로 옮기고 싶은데 그러면 viewModel에 UIKit을 import 해야하는데 그게 맞을까요?
+            if indexPath.row == viewModel.cellList.value.count - 1 {
+                showAlertWithCancel(title: "처음부터 시작하기", message: "데이터를 모두 초기화하시겠습니까?") { action in
                     for key in UserDefaults.standard.dictionaryRepresentation().keys {
                         UserDefaults.standard.removeObject(forKey: key.description)
                     }
@@ -126,13 +116,29 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                     sceneDelegate?.window?.makeKeyAndVisible()
                 }
                 
-                let cancel = UIAlertAction(title: "취소", style: .cancel)
+//                let ok = UIAlertAction(title: "확인", style: .default) { action in
+//                
+//                    for key in UserDefaults.standard.dictionaryRepresentation().keys {
+//                        UserDefaults.standard.removeObject(forKey: key.description)
+//                    }
+//                    
+//                    let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+//                    let sceneDelegate = windowScene?.delegate as? SceneDelegate
+//                    
+//                    let vc = OnboardViewController()
+//                    let nav = UINavigationController(rootViewController: vc)
+//
+//                    sceneDelegate?.window?.rootViewController = nav
+//                    sceneDelegate?.window?.makeKeyAndVisible()
+                }
                 
-                alert.addAction(cancel)
-                alert.addAction(ok)
-
-                present(alert, animated: true)
-            }
+//                let cancel = UIAlertAction(title: "취소", style: .cancel)
+//                
+//                alert.addAction(cancel)
+//                alert.addAction(ok)
+//
+//                present(alert, animated: true)
+            
         }
     }
     

@@ -7,25 +7,22 @@
 
 import Foundation
 
+enum textState: String {
+    case normal = "사용할 수 있는 닉네임이에요 :)"
+    case misTextLength = "2글자 이상 10글자 미만으로 설정해주세요"
+    case specialCharacter = "닉네임에 @,#,$,%는 포함할 수 없어요"
+    case number = "닉네임에 숫자는 포함할 수 없어요"
+    case first = "닉네임에 @, #, $, %의 특수문자 및 숫자는 사용불가합니다."
+}
+
 class ProfileNicknameViewModel {
-    
-    enum textState: String {
-        case normal = "사용할 수 있는 닉네임이에요 :)"
-        case misTextLength = "2글자 이상 10글자 미만으로 설정해주세요"
-        case specialCharacter = "닉네임에 @,#,$,%는 포함할 수 없어요"
-        case number = "닉네임에 숫자는 포함할 수 없어요"
-    }
-    
-    let udManager = UserDefaultManager.shared
     
     var inputNickname: Observable<String?> = Observable("")
     
     var outputStateLabel = Observable("")
     var outputNicknameLabel = Observable("")
     var outputStateLabelColor: Observable<Bool> = Observable(true)
-    
-    var checkDone = false
-    
+    var outputNicknameCheck: Observable<Bool> = Observable(false)
     init() {
         inputNickname.bind { text in
             self.nicknameValidation(text)
@@ -44,7 +41,7 @@ class ProfileNicknameViewModel {
         outputStateLabel.value = textState.normal.rawValue
         outputNicknameLabel.value = text
         outputStateLabelColor.value = true
-
+        
         for idx in specialText where text.contains(idx) {
             outputStateLabel.value = textState.specialCharacter.rawValue
             outputStateLabelColor.value = false
@@ -68,5 +65,7 @@ class ProfileNicknameViewModel {
             outputNicknameLabel.value = fixedText
             outputStateLabelColor.value = false
         }
+        
+        outputNicknameCheck.value = outputStateLabelColor.value
     }
 }

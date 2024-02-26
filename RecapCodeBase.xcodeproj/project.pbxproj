@@ -45,6 +45,7 @@
 		DEF60A0A2B8C640100EE3CE3 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF60A092B8C640100EE3CE3 /* Observable.swift */; };
 		DEF60A0C2B8C693F00EE3CE3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEF60A0B2B8C693F00EE3CE3 /* Main.storyboard */; };
 		DEF60A0E2B8C6BEB00EE3CE3 /* ProfileNicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF60A0D2B8C6BEB00EE3CE3 /* ProfileNicknameViewModel.swift */; };
+		DEF60A102B8CCDAA00EE3CE3 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF60A0F2B8CCDAA00EE3CE3 /* SettingViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		DEF60A092B8C640100EE3CE3 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		DEF60A0B2B8C693F00EE3CE3 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		DEF60A0D2B8C6BEB00EE3CE3 /* ProfileNicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNicknameViewModel.swift; sourceTree = "<group>"; };
+		DEF60A0F2B8CCDAA00EE3CE3 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 			children = (
 				DE3896E72B59324900FFB2CB /* SettingViewController.swift */,
 				DE3896F72B59465900FFB2CB /* SettingTableViewCell.swift */,
+				DEF60A0F2B8CCDAA00EE3CE3 /* SettingViewModel.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE3896EA2B59325100FFB2CB /* SearchViewController.swift in Sources */,
+				DEF60A102B8CCDAA00EE3CE3 /* SettingViewModel.swift in Sources */,
 				DE3897052B59F59A00FFB2CB /* DataManager.swift in Sources */,
 				DE99C2D52B59164C00158E02 /* ProfileImageViewController.swift in Sources */,
 				DE3896E42B5931E100FFB2CB /* MainViewController.swift in Sources */,

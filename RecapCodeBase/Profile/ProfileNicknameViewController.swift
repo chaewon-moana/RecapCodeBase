@@ -24,7 +24,6 @@ class ProfileNicknameViewController: UIViewController, CodeBase {
 
     let profileList = DataManager.profileImageList
     let udManager = UserDefaultManager.shared
-    var checkDone = false
     let viewModel = ProfileNicknameViewModel()
     
     override func viewDidLoad() {
@@ -62,7 +61,7 @@ class ProfileNicknameViewController: UIViewController, CodeBase {
         
         profileImageView.image = UIImage(named: DataManager.profileImageList[udManager.selectedImageIndex])
                 
-        stateLabel.text = "닉네임에 @, #, $, %의 특수문자 및 숫자는 사용불가합니다."
+        stateLabel.text = textState.first.rawValue
         stateLabel.font = .subTextFont
         stateLabel.textColor = .customPointColor
         
@@ -127,8 +126,6 @@ class ProfileNicknameViewController: UIViewController, CodeBase {
         navigationController?.popViewController(animated: true)
     }
     
-
-    
     func profileImageTapped() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(moveToProfileImage))
         profileImageView.addGestureRecognizer(tapGesture)
@@ -145,7 +142,7 @@ class ProfileNicknameViewController: UIViewController, CodeBase {
         udManager.nickname = nicknameTextField.text!
         udManager.firstVisit = true
 
-        if checkDone {
+        if viewModel.outputNicknameCheck.value {
             udManager.nickname = nicknameTextField.text!
             
             let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
@@ -156,7 +153,7 @@ class ProfileNicknameViewController: UIViewController, CodeBase {
             sceneDelegate?.window?.rootViewController = vc
             sceneDelegate?.window?.makeKeyAndVisible()
         } else {
-            showAlertWithOk(title: "닉네임 조건에 맞지 않습니다.", message: "닉네임을 조건에 맞게 다시 설정해주세요")
+            showAlertWith(title: "닉네임 조건에 맞지 않습니다.", message: "닉네임을 조건에 맞게 다시 설정해주세요")
         }
     }
 }

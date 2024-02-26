@@ -32,7 +32,7 @@ class SettingTableViewCell: UITableViewCell, CodeBase {
     func configureAttribute() {
         profileImage.image = UIImage(named: DataManager.profileImageList[udManager.selectedImageIndex])
         
-        nicknameLabel.text = "닉네임ㄴ닉네임닉네임"//udManager.nickname
+        nicknameLabel.text = udManager.nickname
         nicknameLabel.font = .HeadFont
 
         likeLabel.attributedText = configureCell(count: udManager.likeList.count)
