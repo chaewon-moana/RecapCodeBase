@@ -153,13 +153,8 @@ class ProfileNicknameViewController: UIViewController, CodeBase {
             vc.selectedIndex = 0
             sceneDelegate?.window?.rootViewController = vc
             sceneDelegate?.window?.makeKeyAndVisible()
-        } else { //TODO: 조건에 맞지 않을 때, alert 띄우기 나아아중에
-            
-            let alert = UIAlertController(title: "닉네임 조건에 맞지 않습니다.", message: "닉네임을 조건에 맞게 다시 설정해주세요", preferredStyle: .actionSheet)
-            let ok = UIAlertAction(title: "확인", style: .default)
-            alert.addAction(ok)
-            present(alert, animated: true)
-            //조건에 맞지 않다고 닉네임 다시 설정해달라는 alert 띄우기
+        } else {
+            showAlertWithOk(title: "닉네임 조건에 맞지 않습니다.", message: "닉네임을 조건에 맞게 다시 설정해주세요")
         }
     }
 }
