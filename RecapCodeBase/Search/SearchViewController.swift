@@ -38,10 +38,18 @@ class SearchViewController: UIViewController, CodeBase {
     var start = 1
     var defaultButton: String = "sim"
     
+    let viewModel = SearchViewModel()
+    
     var product: ProductList = ProductList(total: 0, start: 1, display: 30, items: [])
     var items: [Product] = [] {
         didSet {
             productCollectionView.reloadData()
+        }
+    }
+    
+    func bindData() {
+        viewModel.outputProductItems.bind { product in
+            self.productCollectionView.reloadData()
         }
     }
     
@@ -65,6 +73,7 @@ class SearchViewController: UIViewController, CodeBase {
         navigationItem.leftBarButtonItem = button
 
         //MARK: 왜 self를 저기 앞에다 붙여주면 안써도 되는 것인가??
+        
         productManager.callRequest(text: udManager.recentSearches, start: 1, sort: SortedButton.sim.rawValue) { [self] value in
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = .decimal
@@ -74,6 +83,15 @@ class SearchViewController: UIViewController, CodeBase {
             product = value
             items = product.items
         }
+        
+        //viewModel.callRequest()
+//        viewModel.inputViewDidLoad.value = ()
+//        bindData()
+//        viewModel.inputRecentSearches.value = udManager.recentSearches
+//        searchResultLabel.text = viewModel.outputResultLabel.value
+//        navigationItem.title = udManager.recentSearches
+//       
+        
         
         setAddView()
         configureLayout()

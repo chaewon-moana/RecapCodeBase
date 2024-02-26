@@ -25,6 +25,7 @@ class ProfileNicknameViewController: UIViewController, CodeBase {
     let profileList = DataManager.profileImageList
     let udManager = UserDefaultManager.shared
     var checkDone = false
+    let viewModel = ProfileNicknameViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +41,17 @@ class ProfileNicknameViewController: UIViewController, CodeBase {
         profileImageTapped()
     
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+        
+        nicknameTextField.addTarget(self, action: #selector(nicknameTextFieldChanged), for: .editingChanged)
     }
 
+    @objc func nicknameTextFieldChanged() {
+        viewModel.inputNickname.value = nicknameTextField.text
+        
+        stateLabel.text = viewModel.outputStateLabel.value
+        nicknameTextField.text = viewModel.outputNicknameLabel.value
+    }
+    
     func setAddView() {
         view.addSubviews([profileImageView, cameraImageView, nicknameTextField, stateLabel, doneButton, underLineView])
     }
@@ -115,6 +125,8 @@ class ProfileNicknameViewController: UIViewController, CodeBase {
         navigationController?.popViewController(animated: true)
     }
     
+
+    
     func profileImageTapped() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(moveToProfileImage))
         profileImageView.addGestureRecognizer(tapGesture)
@@ -153,72 +165,15 @@ class ProfileNicknameViewController: UIViewController, CodeBase {
 }
 
 extension ProfileNicknameViewController: UITextFieldDelegate {
-    
-    enum textState: String {
-        case normal = "사용할 수 있는 닉네임이에요 :)"
-        case misTextLength = "2글자 이상 10글자 미만으로 설정해주세요"
-        case specialCharacter = "닉네임에 @,#,$,%는 포함할 수 없어요"
-        case number = "닉네임에 숫자는 포함할 수 없어요"
-    }
-    
+
     func setTextField() {
         nicknameTextField.borderStyle = .none
         nicknameTextField.placeholder = "닉네임을 입력해주세요:)"
-    }
-
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        let text = textField.text ?? ""
-        let specialText = ["#","@","$","%"]
-        let number = ["0","1","2","3","4","5","6","7","8","9"]
-        let maxTextLength = 9
-        let minTextLength = 2
-        
-        var checkSpecial = false
-        var checkNumber = false
-        var checkLength = false
-        
-        for idx in specialText where text.contains(idx) {
-            checkSpecial = true
-        }
-        
-        for idx in number where text.contains(idx) {
-            checkNumber = true
-        }
-        
-        if checkSpecial {
-            stateLabel.text = textState.specialCharacter.rawValue
-            stateLabel.textColor = .warningColor
-        } else if checkNumber {
-            stateLabel.text = textState.number.rawValue
-            stateLabel.textColor = .warningColor
-        } else if text.count < minTextLength {
-            stateLabel.text = textState.misTextLength.rawValue
-            stateLabel.textColor = .warningColor
-        } else if text.count == maxTextLength {
-            stateLabel.text = textState.misTextLength.rawValue
-            stateLabel.textColor = .warningColor
-        } else {
-            stateLabel.text = textState.normal.rawValue
-            stateLabel.textColor = .customPointColor
-        }
-
-        if text.count > maxTextLength {
-            let startIndex = text.startIndex
-            let endIndex = text.index(startIndex, offsetBy: maxTextLength - 1)
-            let fixedText = String(text[startIndex...endIndex])
-            textField.text = fixedText
-        }
-        
-        if text.count < minTextLength || text.count > maxTextLength {
-            checkLength = true
-        }
-        checkDone = !checkNumber && !checkSpecial && !checkLength
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
- 
 }
 
 #Preview {
