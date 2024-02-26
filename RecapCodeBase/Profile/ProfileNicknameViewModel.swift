@@ -22,6 +22,7 @@ class ProfileNicknameViewModel {
     
     var outputStateLabel = Observable("")
     var outputNicknameLabel = Observable("")
+    var outputStateLabelColor: Observable<Bool> = Observable(true)
     
     var checkDone = false
     
@@ -42,21 +43,21 @@ class ProfileNicknameViewModel {
         
         outputStateLabel.value = textState.normal.rawValue
         outputNicknameLabel.value = text
-        //stateLabel.textColor = .customPointColor
+        outputStateLabelColor.value = true
 
         for idx in specialText where text.contains(idx) {
             outputStateLabel.value = textState.specialCharacter.rawValue
-            //stateLabel.textColor = .warningColor
+            outputStateLabelColor.value = false
         }
       
         for idx in number where text.contains(idx) {
             outputStateLabel.value = textState.number.rawValue
-            //  stateLabel.textColor = .warningColor
+            outputStateLabelColor.value = false
         }
         
         if text.count < minTextLength {
             outputStateLabel.value = textState.misTextLength.rawValue
-            //stateLabel.textColor = .warningColor
+            outputStateLabelColor.value = false
         }
         
         if text.count > maxTextLength {
@@ -65,6 +66,7 @@ class ProfileNicknameViewModel {
             let endIndex = text.index(startIndex, offsetBy: maxTextLength - 1)
             let fixedText = String(text[startIndex...endIndex])
             outputNicknameLabel.value = fixedText
+            outputStateLabelColor.value = false
         }
     }
 }

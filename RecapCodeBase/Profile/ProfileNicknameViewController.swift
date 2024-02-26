@@ -48,7 +48,9 @@ class ProfileNicknameViewController: UIViewController, CodeBase {
     @objc func nicknameTextFieldChanged() {
         viewModel.inputNickname.value = nicknameTextField.text
         
+        //HELP!!!: Color를 저런식으로 판단하는 조건도 viewmodel에 넣어야하는건지, 요정도는 빼도 괜찮은지
         stateLabel.text = viewModel.outputStateLabel.value
+        stateLabel.textColor = viewModel.outputStateLabelColor.value ? .customPointColor : .warningColor
         nicknameTextField.text = viewModel.outputNicknameLabel.value
     }
     
